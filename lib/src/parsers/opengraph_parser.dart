@@ -10,28 +10,28 @@ class OpenGraphParser with BaseMetadataParser {
 
   /// Get [Metadata.title] from 'og:title'
   @override
-  String get title => getProperty(
+  String? get title => getProperty(
         _document,
         property: 'og:title',
       );
 
   /// Get [Metadata.description] from 'og:description'
   @override
-  String get description => getProperty(
+  String? get description => getProperty(
         _document,
         property: 'og:description',
       );
 
   /// Get [Metadata.image] from 'og:image'
   @override
-  String get image => getProperty(
+  String? get image => getProperty(
         _document,
         property: 'og:image',
       );
 
   /// Get [Metadata.url] from 'og:url'
   @override
-  String get url => getProperty(
+  String? get url => getProperty(
         _document,
         property: 'og:url',
       );

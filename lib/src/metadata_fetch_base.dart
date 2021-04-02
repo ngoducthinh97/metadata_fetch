@@ -8,20 +8,20 @@ import 'package:metadata_fetch/src/utils/util.dart';
 import 'package:string_validator/string_validator.dart';
 
 /// Fetches a [url], validates it, and returns [Metadata].
-Future<Metadata> extract(String url) async {
+Future<Metadata?>? extract(String? url) async {
   if (!isURL(url)) {
     return null;
   }
 
   /// Sane defaults; Always return the Domain name as the [title], and a [description] for a given [url]
   final defaultOutput = Metadata();
-  defaultOutput.title = getDomain(url);
+  defaultOutput.title = getDomain(url!)!;
   defaultOutput.description = url;
 
   // Make our network call
-  final response = await http.get(url);
+  final response = await http.get(Uri.parse(url));
 
-  if (response.headers['content-type'].startsWith(r'image/')) {
+  if (response.headers['content-type']!.startsWith(r'image/')) {
     defaultOutput.title = '';
     defaultOutput.description = '';
     defaultOutput.image = url;
@@ -35,6 +35,7 @@ Future<Metadata> extract(String url) async {
   }
 
   final data = _extractMetadata(document);
+  // ignore: unnecessary_null_comparison
   if (data == null) {
     return defaultOutput;
   }
@@ -43,15 +44,15 @@ Future<Metadata> extract(String url) async {
 }
 
 /// Takes an [http.Response] and returns a [html.Document]
-Document responseToDocument(http.Response response) {
+Document? responseToDocument(http.Response response) {
   if (response.statusCode != 200) {
     return null;
   }
 
-  Document document;
+  Document? document;
   try {
     document = parser.parse(utf8.decode(response.bodyBytes));
-    document.requestUrl = response.request.url.toString();
+    document.requestUrl = response.request!.url.toString();
   } catch (err) {
     return document;
   }

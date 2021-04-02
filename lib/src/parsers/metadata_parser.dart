@@ -28,7 +28,7 @@ class MetadataParser {
     }
 
     if (output.url != null && output.image != null) {
-      output.image = Uri.parse(output.url).resolve(output.image).toString();
+      output.image = Uri.parse(output.url!).resolve(output.image!).toString();
     }
 
     return output;

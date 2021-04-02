@@ -14,10 +14,10 @@ extension GetMethod on Map {
 
 /// Adds getter/setter for the original [Response.request.url]
 extension HttpRequestData on Document {
-  static String _requestUrl;
+  static String? _requestUrl;
 
   String get requestUrl {
-    return _requestUrl;
+    return _requestUrl!;
   }
 
   set requestUrl(String newValue) {
@@ -25,23 +25,22 @@ extension HttpRequestData on Document {
   }
 }
 
-String getDomain(String url) {
-  return Uri.parse(url)?.host.toString().split('.')[0];
+String? getDomain(String url) {
+  return Uri.parse(url).host.toString().split('.')[0];
 }
 
-String getProperty(
-  Document document, {
+String? getProperty(
+  Document? document, {
   String tag = 'meta',
   String attribute = 'property',
-  String property,
+  String? property,
   String key = 'content',
 }) {
-  return document
-      ?.getElementsByTagName(tag)
-      ?.firstWhere(
+  return document!
+      .getElementsByTagName(tag)
+      .firstWhere(
         (element) => element.attributes[attribute] == property,
-        orElse: () => null,
       )
-      ?.attributes
-      ?.get(key);
+      .attributes
+      .get(key);
 }
